@@ -1,4 +1,9 @@
 import React from 'react';
+import {Meteor} from 'meteor/meteor';
+import ReactDOMServer from 'react-dom/server';
+import cookieParser from 'cookie-parser';
+import Cheerio from 'cheerio';
+import {InjectData} from 'meteor/meteorhacks:inject-data';
 
 import {
   match as ReactRouterMatch,
@@ -9,9 +14,7 @@ import {
 import SsrContext from './ssr_context';
 import patchSubscribeData from './ssr_data';
 
-import ReactDOMServer from 'react-dom/server';
-import cookieParser from 'cookie-parser';
-import Cheerio from 'cheerio';
+
 
 function IsAppUrl(req) {
   var url = req.url;
@@ -184,9 +187,9 @@ function generateSSRData(clientOptions, serverOptions, req, res, renderProps) {
       if (frData) {
         ssrContext.addData(frData.collectionData);
       }
-      if (serverOptions.preRender) {
-        serverOptions.preRender(req, res);
-      }
+      // if (serverOptions.preRender) {
+      //   serverOptions.preRender(req, res);
+      // }
 
       // Uncomment these two lines if you want to easily trigger
       // multiple client requests from different browsers at the same time
@@ -208,6 +211,10 @@ function generateSSRData(clientOptions, serverOptions, req, res, renderProps) {
 
       if (typeof clientOptions.wrapperHook === 'function') {
         app = clientOptions.wrapperHook(app);
+      }
+
+      if (serverOptions.preRender) {
+        serverOptions.preRender(req, res, app);
       }
 
       if (!serverOptions.disableSSR){
@@ -253,7 +260,8 @@ function fetchComponentData(serverOptions, renderProps) {
   }
 
   const promises = serverOptions.fetchDataHook(componentsWithFetch);
-  Promise.awaitAll(promises);
+  s = Promise.awaitAll(promises);
+  console.log(s)
 }
 
 function moveScripts(data) {

@@ -62,7 +62,6 @@ const ReactRouterSSR = {
       } else {
         ReactDOM.render(app, rootElement);
       }
-
       let collectorEl = document.getElementById(clientOptions.styleCollectorId || 'css-style-collector-data')
 
       if (collectorEl) {
