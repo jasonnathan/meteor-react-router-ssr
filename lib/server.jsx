@@ -259,9 +259,9 @@ function fetchComponentData(serverOptions, renderProps) {
     return;
   }
 
-  const promises = serverOptions.fetchDataHook(componentsWithFetch);
-  s = Promise.awaitAll(promises);
-  console.log(s)
+  // const promises = serverOptions.fetchDataHook(componentsWithFetch);
+  // s = Promise.awaitAll(promises);
+  // console.log(s)
 }
 
 function moveScripts(data) {
