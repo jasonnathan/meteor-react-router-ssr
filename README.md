@@ -1,3 +1,11 @@
+#*This is a fork of the original repo#
+I made a few changes to allow Apollo-Stack integration. Almost everything works the same way as the original with the exception of `preRender`. Please see implementation below
+
+
+**ALSO NOTE**
+`wrapperHook` runs on both client **and** server but you define it in `clientOptions`. This was the way it's done on the original repo. If you think you'd need a seperate hook for the server, please file an issue
+
+-------------------------------------------------------------------------------------------------------------------------
 Server-side rendering for react-router and react-meteor-data rehydratating Meteor subscriptions
 
 It has a protection against leaking your data. Only subscribed data will be available just the way it would be on the client.
@@ -19,7 +27,7 @@ Your main `<Route />` node of your application.<br />
 #### clientOptions (optional)
 - `historyHook`: [function(history) : newHistory] - Hook something into history client side.
 - `props` [object]: The additional arguments you would like to give to the `<Router />` component on the client.
-- `wrapperHook` [function(App) : Component]: You can wrap the react-router element with your own providers.
+- `wrapperHook` [function(App) : Component]: You can wrap the react-router element with your own providers. Declared in clientOptions but works on the server too.
 - `rehydrateHook` [function(data)]: Receive the rehydrated object that was dehydrated during server side rendering.
 - `rootElement` [string]: The root element ID your React application is mounted with (defaults to `react-app`)
 - `rootElementType` [string]: Set the root element type (defaults to `div`)
@@ -107,7 +115,9 @@ ReactRouterSSR.Run(AppRoutes, {
     const head = ReactHelmet.rewind();
     return html.replace('<head>', '<head>' + head.title + head.base + head.meta + head.link + head.script);
   },
-  preRender: function(req, res) {
+  // this repo adds an `app` argument so you can initialise in a more apollo friendly manner. 
+  // See this http://bit.ly/2ggUhCe for details.
+  preRender: function(req, res, app) {
     ReactCookie.plugToRequest(req, res);
   }
 });
