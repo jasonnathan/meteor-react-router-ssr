@@ -6,7 +6,7 @@ It has a protection against leaking your data. Only subscribed data will be avai
 
 What about your SEO? Just `npm install react-helmet` and hook it with `htmlHook(html): string` (see the example below).
 
-##Supporting the project
+## Supporting the project
 In the spirit of keeping this package alive and in active development, I ask that if you find it useful, please donate to it's development.
 
 [Bitcoin](https://www.coinbase.com/checkouts/4a52f56a76e565c552b6ecf118461287) / [Patreon](https://www.patreon.com/user?u=4866588) / [Paypal](https://www.paypal.me/copleykj)
