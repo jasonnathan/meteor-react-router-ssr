@@ -12,6 +12,7 @@ import patchSubscribeData from './ssr_data';
 import ReactDOMServer from 'react-dom/server';
 import cookieParser from 'cookie-parser';
 import Cheerio from 'cheerio';
+import merge from 'lodash/merge';
 
 function IsAppUrl(req) {
   var url = req.url;
@@ -47,7 +48,7 @@ ReactRouterSSR.LoadWebpackStats = function(stats) {
 patchSubscribeData(ReactRouterSSR);
 
 ReactRouterSSR.Run = function(routes, clientOptions, serverOptions) {
-  
+
   if (!clientOptions) {
     clientOptions = {};
   }
@@ -208,7 +209,7 @@ function generateSSRData(clientOptions, serverOptions, req, res, renderProps) {
       //fetchComponentData(serverOptions, renderProps);
       let appGenerator = (addProps) => <RouterContext {...renderProps} {...addProps} />;
 
-      let app;
+      let app = <RouterContext {...renderProps} />;
       if (typeof clientOptions.wrapperHook === 'function') {
         app = clientOptions.wrapperHook(appGenerator);
       }
@@ -219,11 +220,6 @@ function generateSSRData(clientOptions, serverOptions, req, res, renderProps) {
       }
 
       if (!serverOptions.disableSSR){
-        // I'm pretty sure this could be avoided in a more elegant way?
-        ReactDOMServer.renderToString(app);
-        const context = FastRender.frContext.get();
-        const data = context.getData();
-        InjectData.pushData(res, 'fast-render-data', data);
         html = ReactDOMServer.renderToString(app);
       } else if (serverOptions.loadingScreen){
         html = serverOptions.loadingScreen;
@@ -240,9 +236,8 @@ function generateSSRData(clientOptions, serverOptions, req, res, renderProps) {
       }
 
       // I'm pretty sure this could be avoided in a more elegant way?
-      const context = FastRender.frContext.get();
-      const data = context.getData();
-      InjectData.pushData(res, 'fast-render-data', data);
+      const data = FastRender.frContext.get().getData();
+      InjectData.pushData(res, 'fast-render-data', merge(data, frData));
     }
     catch(err) {
       console.error(new Date(), 'error while server-rendering', err.stack);

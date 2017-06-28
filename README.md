@@ -1,10 +1,15 @@
-# WARNING: This project is no longer in active maintenance. If you would like to maintain it, contact me at benoit@thereactivestack.com
+# ANNOUNCEMENT: This project will now be maintained by [copleykj](https://github.com/copleykj). Please support this project if you would like to keep it alive and updated.
 
 Server-side rendering for react-router and react-meteor-data rehydratating Meteor subscriptions
 
 It has a protection against leaking your data. Only subscribed data will be available just the way it would be on the client.
 
 What about your SEO? Just `npm install react-helmet` and hook it with `htmlHook(html): string` (see the example below).
+
+##Supporting the project
+In the spirit of keeping this package alive and in active development, I ask that if you find it useful, please donate to it's development.
+
+[Bitcoin](https://www.coinbase.com/checkouts/4a52f56a76e565c552b6ecf118461287) / [Patreon](https://www.patreon.com/user?u=4866588) / [Paypal](https://www.paypal.me/copleykj)
 
 ## Install
 `meteor add reactrouter:react-router-ssr`

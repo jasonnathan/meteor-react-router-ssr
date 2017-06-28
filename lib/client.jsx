@@ -54,7 +54,11 @@ const ReactRouterSSR = {
           {...addProps } />
       );
 
-      let app;
+      let app = <Router
+        history={history}
+        children={routes}
+        {...clientOptions.props} />;
+    
       if (typeof clientOptions.wrapperHook === 'function') {
         app = clientOptions.wrapperHook(appGenerator);
       }
